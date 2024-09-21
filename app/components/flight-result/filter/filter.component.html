@@ -1,0 +1,118 @@
+<input type="checkbox" id="checkbox" />
+
+<label
+  id="showfilter"
+  for="checkbox"
+  [ngClass]="language == 'EN' ? 'en_showfilter' : 'ar_showfilter'"
+>
+  <i class="bi bi-funnel icon-filter showfilter_icon"></i>
+</label>
+
+<div class="filter" [ngClass]="language == 'EN' ? 'en_filter' : 'ar_filter'">
+  <label for="checkbox" class="close_filter">
+    <i class="bi bi-x close-filter"></i>
+  </label>
+
+  <div class="filter_name d-flex justify-content-between">
+    <div>
+      <i class="bi bi-sliders"></i>
+      <h6
+        [ngStyle]="
+          language == 'EN'
+            ? { 'margin-left': '.8rem' }
+            : { 'margin-right': '.8rem' }
+        "
+      >
+        {{ "filter" | translate }}
+      </h6>
+    </div>
+    <div
+      style="position: relative; cursor: pointer"
+      title="Reset Filter"
+      (click)="resetFilter()"
+    >
+      <i class="bi bi-funnel icon-filter"></i>
+      <i class="bi bi-x close-filter reset_filter"></i>
+    </div>
+  </div>
+
+  <div
+    style="padding-top: 2.3125rem; position: relative"
+    class="d-flex justify-content-center"
+  >
+    <input
+      type="text"
+      pattern="/^[A-Za-z\s]*$/"
+      placeholder="Search By Airline Name"
+      [(ngModel)]="SearchText"
+      (input)="validateInput($event)"
+      class="inputText"
+    />
+    <i class="bi bi-search search" (click)="filterByName()"></i>
+  </div>
+
+  <div class="price-filter">
+    <div
+      class="d-flex justify-content-between align-items-center"
+      style="width: 100%; direction: ltr"
+    >
+      <ng-container *ngIf="language == 'EN'">
+        <p>
+          Min Value:
+          {{ ValueMaxRange > ValueMinRange ? ValueMinRange : ValueMaxRange }}
+        </p>
+        <p>
+          Max Value:
+          {{ ValueMaxRange > ValueMinRange ? ValueMaxRange : ValueMinRange }}
+        </p>
+      </ng-container>
+
+      <ng-container *ngIf="language == 'AR'">
+        <p>
+          {{ ValueMaxRange > ValueMinRange ? ValueMaxRange : ValueMinRange }}
+          :أعلى سعر
+        </p>
+        <p>
+          {{ ValueMaxRange > ValueMinRange ? ValueMinRange : ValueMaxRange }}
+          :أقل سعر
+        </p>
+      </ng-container>
+    </div>
+
+    <span></span>
+
+    <input
+      type="range"
+      [(ngModel)]="ValueMinRange"
+      [min]="MinPrice"
+      [max]="MaxPrice"
+      (input)="controlPrice('max', $event)"
+    />
+    <input
+      type="range"
+      [(ngModel)]="ValueMaxRange"
+      [min]="MinPrice"
+      [max]="MaxPrice"
+      (input)="controlPrice('min', $event)"
+    />
+  </div>
+
+  <div class="airline_filter">
+    <div
+      *ngFor="let airline of airLineNames; let i = index"
+      class="d-flex justify-content-between align-items-center"
+    >
+      <input
+        [id]="i"
+        type="checkbox"
+        [checked]="checkboxStates[i]"
+        [value]="airline"
+        (change)="filterByAirlineName($event, i)"
+      />
+
+      <label [for]="i">{{ airline }}</label>
+    </div>
+  </div>
+
+  <button (click)="applyFilters()">{{ "Apply" | translate }}</button>
+</div>

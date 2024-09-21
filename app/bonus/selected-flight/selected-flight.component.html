@@ -1,0 +1,177 @@
+<div class="main_container">
+  <div style="margin-top: 3rem; direction: ltr">
+    <app-back-arrow></app-back-arrow>
+  </div>
+
+  <ng-container *ngFor="let flightDto of flightDetails; let i = index">
+    <div *ngIf="i == 0" class="py-4 flight">
+      <div
+        class="row px-4 d-flex justify-content-between align-items-center mb-3"
+      >
+        <div
+          class="d-flex align-items-center airline_info col-xl-3 col-md-3 col-sm-12 col-12"
+        >
+          <img
+            [src]="flightDto.flightAirline.airlineLogo"
+            [ngStyle]="
+              language == 'EN'
+                ? { 'margin-right': '.5rem' }
+                : { 'margin-left': '2rem' }
+            "
+          />
+
+          <div>
+            <p>
+              {{ flightDto.flightAirline.airlineName }}
+            </p>
+
+            <p>
+              {{ flightDto.flightAirline.airlineCode }}
+              -
+              {{ flightDto.flightInfo.flightNumber }}
+            </p>
+          </div>
+        </div>
+
+        <div
+          class="d-flex justify-content-between align-items-center col-xl-6 col-md-9 col-sm-12 col-12 gx-4"
+          style="direction: ltr"
+        >
+          <div>
+            <p>
+              {{ flightDetails[0].departureTerminalAirport.cityName }}
+            </p>
+
+            <p>
+              {{
+                convertTimeToDate(flightDto.departureDate)
+                  | date : "hh:mm, EEE dd MMM"
+              }}
+            </p>
+
+            <p>
+              {{ flightDto.departureTerminalAirport.airportName }}
+            </p>
+          </div>
+
+          <div class="div_of_arrow d-flex justify-content-center">
+            <p>{{ flightDto.flightInfo.cabinClass }}</p>
+
+            <i class="bi bi-arrow-right" *ngIf="language == 'EN'"></i>
+
+            <i class="bi bi-arrow-left" *ngIf="language == 'AR'"></i>
+
+            <div class="total_duration" style="direction: ltr">
+              <p *ngIf="flightDetails && flightDetails?.length == 1">
+                {{ "Direct" | translate }}
+              </p>
+
+              <div
+                *ngIf="flightDetails && flightDetails?.length > 1"
+                class="d-flex"
+                [ngStyle]="
+                  language == 'EN'
+                    ? { direction: 'ltr', 'justify-content': 'start' }
+                    : { direction: 'rtl', 'justify-content': 'end' }
+                "
+              >
+                <p
+                  style="display: inline-block"
+                  [ngStyle]="
+                    language == 'EN'
+                      ? { 'margin-right': '.5rem' }
+                      : { 'margin-left': '.5rem' }
+                  "
+                >
+                  {{ flightDetails?.length }}
+                </p>
+                <p style="display: inline-block">
+                  {{ "Stop" | translate }}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="flightDetails && flightDetails.length == 1">
+            <p>
+              {{ flightDto.arrivalTerminalAirport.cityName }}
+            </p>
+
+            <p>
+              {{
+                convertTimeToDate(flightDto.arrivalDate)
+                  | date : "hh:mm, EEE dd MMM"
+              }}
+            </p>
+
+            <p>
+              {{ flightDto.arrivalTerminalAirport.airportName }}
+            </p>
+          </div>
+
+          <div *ngIf="flightDetails && flightDetails?.length > 1">
+            <p>
+              {{
+                flightDetails[flightDetails.length - 1]?.arrivalTerminalAirport
+                  .cityName
+              }}
+            </p>
+
+            <p>
+              {{
+                convertTimeToDate(
+                  flightDetails[flightDetails.length - 1]?.arrivalDate
+                ) | date : "hh:mm, EEE dd MMM"
+              }}
+            </p>
+
+            <p>
+              {{
+                flightDetails[flightDetails.length - 1]?.arrivalTerminalAirport
+                  .airportName
+              }}
+            </p>
+          </div>
+        </div>
+
+        <div
+          class="d-flex align-items-center col-xl-3 col-md-12 col-sm-12 col-12 div_of_booknow"
+        >
+          <p>{{ "TotalPrice" | translate }}</p>
+          :
+          <p
+            style="direction: ltr"
+            [ngStyle]="
+              language == 'AR'
+                ? { 'margin-right': '.5rem' }
+                : { 'margin-left': '.5rem' }
+            "
+          >
+            {{
+              calculateTravelDuration(
+                flightDto.departureDate,
+                flightDto.deptTime,
+
+                flightDetails[flightDetails.length - 1]?.arrivalDate,
+                flightDetails[flightDetails.length - 1]?.landTime
+              )
+            }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>
+
+<div class="d-flex justify-content-end align-items-center div_of_price">
+  <p
+    [ngStyle]="
+      language == 'EN' ? { 'margin-right': '1rem' } : { 'margin-left': '1rem' }
+    "
+  >
+    EGP {{ totalPrice }}
+  </p>
+  <button type="button" class="book_now">
+    {{ "BookNow" | translate }}
+  </button>
+</div>

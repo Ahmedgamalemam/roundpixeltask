@@ -1,0 +1,111 @@
+p{
+    margin: 0;
+    font-size: clamp(70%, 80%, 90%);
+}
+
+
+.main_container{
+    min-height: 36rem;
+    width: 70%;
+    margin: auto;
+}
+
+
+.flight{
+    border-radius: 1rem;
+    margin: 1rem 0 3rem;
+    background-color: white;
+}
+.flight img{
+    width: auto;
+}
+.flight i{
+    font-size: 3rem;
+    color: #747474
+}
+
+.airline_info > div{
+    width: 50%;
+    margin-left: 2rem;
+}
+.airline_info > div > p{
+    margin-bottom: 0.4rem;
+    font-size: smaller;
+}
+
+.div_of_arrow{
+    position: relative;
+}
+.div_of_arrow > p,
+.div_of_arrow > div{
+    position: absolute;
+}
+.div_of_arrow > p{
+    top: 0rem;
+}
+.div_of_arrow > div{
+    top: 3.5rem;
+}
+.div_of_price{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 6rem;
+    padding: 0 3rem;
+    background-color: white;
+}
+.div_of_price > p{
+    font-size: 1.5rem;
+}
+
+
+.book_now{
+    border-radius: .5rem;
+    border: none;
+    background-color: #f9064a;
+    color: white;
+    padding: 0.4rem 1rem;
+    margin-left: 1rem;
+}
+
+
+@media (max-width:940px){
+    .main_container{
+        width: 90%;
+    }
+}
+@media (max-width:767px){
+    .main_container{
+        width: 100%;
+    }
+    .airline_info {
+       justify-content: center !important;
+    }
+    .airline_info > div{
+        width: fit-content;
+    }
+    .airline_info + div{
+        margin: 1.5rem 0;
+        justify-content: center !important;
+    }
+    .airline_info + div > div{
+        width: 40%;
+    }
+    .total_duration{
+        width: fit-content !important;
+    }
+}
+@media(max-width:380px){
+    p{
+        font-size: 70%;
+    }
+    .airline_info{
+        flex-direction: column;
+    }
+    .airline_info > div{
+        margin: auto;
+    }
+    .airline_info + div > div{
+        width: 75%;
+    }
+}
